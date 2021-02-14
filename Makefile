@@ -3,16 +3,23 @@ OBJ_DIR = obj
 OUTPUT_DIR = build
 OUTPUT = build
 
-include paths.mk
+ifneq ($(wildcard paths.mk),)
+  include paths.mk
+else
+  $(info Copying file default.paths.mk into paths.mk.)
+  $(info Please customize its variables appropriately for your computer.)
+  $(shell cp default.paths.mk paths.mk)
+  include paths.mk
+endif
 
 # Check to make sure that paths.mk defined all of the variables that we needed.
 ifeq ($(wildcard $(ASF_PATH)/.),)
-$(info Please edit paths.mk to point the variable ASF_PATH to the root directory of the Microchip ASF3 XDK.)
-$(info The Microchip ASF3 XDK can be downloaded from)
-$(info www.microchip.com/en-us/development-tools-tools-and-software/libraries-code-examples-and-more/advanced-software-framework-for-sam-devices)
-$(info or)
-$(info www.microchip.com/mplab/avr-support/avr-and-sam-downloads-archive)
-$(error ASF_PATH not defined)
+  $(info Please edit paths.mk to point the variable ASF_PATH to the root directory of the Microchip ASF3 XDK.)
+  $(info The Microchip ASF3 XDK can be downloaded from)
+  $(info www.microchip.com/en-us/development-tools-tools-and-software/libraries-code-examples-and-more/advanced-software-framework-for-sam-devices)
+  $(info or)
+  $(info www.microchip.com/mplab/avr-support/avr-and-sam-downloads-archive)
+  $(error ASF_PATH not defined)
 endif
 
 ################################
